@@ -30,3 +30,10 @@ jobs:
 
       - name: Run Main Script
         run: python main.py
+
+      - name: Send Telegram Notification
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="✅ TNPSC video uploaded successfully at $(date '+%Y-%m-%d %H:%M:%S')"
+
