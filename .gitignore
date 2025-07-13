@@ -1,0 +1,48 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+.env/
+client_secrets.json
+refresh.py
+.env
+
+# Output directories and generated media
+output/
+*.mp3
+*.wav
+*.mp4
+*.png
+*.jpg
+*.jpeg
+
+# FFmpeg temporary files
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.vscode/
+.idea/
+
+# Python environment
+*.egg-info/
+.eggs/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# pytest
+.pytest_cache/
+.cache/
+.coverage
+
+# Optional: Jupyter (if used)
+.ipynb_checkpoints/

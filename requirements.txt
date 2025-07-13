@@ -1,0 +1,9 @@
+Pillow==10.3.0
+gTTS==2.5.1
+pydub==0.25.1
+psycopg2-binary==2.9.9
+ffmpeg-python==0.2.0
+python-dotenv==1.0.1
+google-auth==2.29.0
+google-auth-oauthlib==1.2.0
+google-api-python-client==2.127.0
