@@ -2,7 +2,7 @@ name: Generate Quiz Video
 
 on:
   schedule:
-    - cron: '0 2,7,13 * * *'
+    - cron: '0 1,4,7,10,13 * * *'
   workflow_dispatch:
 
 jobs:

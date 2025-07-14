@@ -1,4 +1,5 @@
 import os
+import re
 from gtts import gTTS
 from pydub import AudioSegment
 
@@ -13,6 +14,7 @@ def create_voice(question_data):
     parts = [silence]
     # 1. Question
     q_text = question_data['question']
+    q_text = re.sub(r'_+', 'வெற்று இடம்', q_text)  # Replace underscores with "வெற்று இடம்"
     q_audio_path = "output/q.mp3"
     gTTS(text=q_text, lang='ta').save(q_audio_path)
     parts.append(AudioSegment.from_file(q_audio_path))
