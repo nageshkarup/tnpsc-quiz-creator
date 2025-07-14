@@ -10,7 +10,7 @@ venv/
 client_secrets.json
 refresh.py
 .env
-
+.tnpsc_venv
 # Output directories and generated media
 output/
 *.mp3

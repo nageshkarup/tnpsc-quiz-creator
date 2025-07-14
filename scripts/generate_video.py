@@ -29,7 +29,7 @@ def create_video():
         "-loop", "1",
         "-i", final_image,
         "-i", question_audio,
-        "-filter:a", "atempo=1.3",  # Speed up audio
+        "-filter:a", "atempo=1.1",  # Speed up audio
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
         "-t", str(duration),
