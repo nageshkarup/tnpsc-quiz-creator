@@ -23,6 +23,14 @@ def mark_used(q_id):
     conn.commit()
     conn.close()
 
+def get_used_questions_count():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM questions WHERE used = TRUE;")
+    count = cur.fetchone()[0]
+    conn.close()
+    return count
+
 if __name__ == "__main__":
     question = fetch_next_question()
     if question:

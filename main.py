@@ -1,11 +1,12 @@
 import os
+import random
 
 if not os.environ.get("GITHUB_ACTIONS"):
     from dotenv import load_dotenv
     load_dotenv()
 
 from db.db_utils import fetch_next_question, mark_used
-from scripts.generate_image import create_image_styled
+from scripts.generate_image import create_image_styled, create_image_styled_two, create_image_styled_three, create_image_styled_four
 from scripts.generate_audio import generate_voice_google_tts
 from scripts.generate_video import create_video
 from scripts.youtube_uploader import upload_video
@@ -16,12 +17,20 @@ if not question_data:
     print("📭 No unused questions left.")
     exit()
 
-create_image_styled(question_data)
+image_styles = [
+    create_image_styled,
+    create_image_styled_two,
+    create_image_styled_three,
+    create_image_styled_four
+]
+
+chosen_style = random.choice(image_styles)
+chosen_style(question_data, name="question.png")
 generate_voice_google_tts(question_data)
 create_video()
 
 
-title = "TNPSC Group 4 answer key 2025 | TNPSC Group 4 cut off 2025"
+title = "TNPSC Group 2 notification | TNPSC Group 4 cut off 2025"
 
 upload_video(
     filepath=os.path.join(os.getcwd(), "output", "short.mp4"),

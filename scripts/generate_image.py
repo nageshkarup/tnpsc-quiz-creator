@@ -8,7 +8,7 @@ font_path = os.path.join(os.getcwd(), "assets", "NotoSansTamil-Regular.ttf")
 final_image = f"{output_dir}/question.png"
 
 
-def create_image_styled(question_data: dict):
+def create_image_styled(question_data: dict, name=f"question.png"):
 
     img = Image.new("RGB", (1080, 1920), color="#f0f4f8")
     draw = ImageDraw.Draw(img)
@@ -116,21 +116,242 @@ def create_image_styled(question_data: dict):
             inner_y += line_height_opt
         y = opt_box_y2 + 20
 
-    img.save(final_image)
-    print("🎨 Enhanced image saved:", final_image)
+    img.save(os.path.join(output_dir, name))
+    print("🎨 Enhanced image saved:", name)
+
+def create_image_styled_two(question_data: dict, name="question2.png"):
+    img = Image.new("RGB", (1080, 1920), color="#fdfdfd")
+    draw = ImageDraw.Draw(img)
+
+
+    # Fonts
+    font_title = ImageFont.truetype(font_path, 64)
+    font_question = ImageFont.truetype(font_path, 58)
+    font_option = ImageFont.truetype(font_path, 48)
+    font_channel = ImageFont.truetype(font_path, 42)
+    font_subscribe = ImageFont.truetype(font_path, 44)
+
+    # Dimensions
+    margin_x = 80
+    max_width = 920
+    padding = 50
+    line_height_q = 75
+    line_height_opt = 60
+    spacing_after_q = 40
+    top_banner_height = 90
+    bottom_banner_height = 100
+
+    def wrap_text(text, font, max_width):
+        lines = []
+        words = text.split()
+        line = ""
+        for word in words:
+            test_line = line + word + " "
+            if draw.textlength(test_line, font=font) <= max_width:
+                line = test_line
+            else:
+                lines.append(line.strip())
+                line = word + " "
+        lines.append(line.strip())
+        return lines
+
+    wrapped_q_lines = wrap_text(question_data["question"], font_question, max_width - 60)
+    wrapped_opt_lines = [wrap_text(opt, font_option, max_width - 100) for opt in question_data["options"]]
+
+    # Draw Background Grid Pattern
+    for x in range(0, 1080, 80):
+        for y in range(0, 1920, 80):
+            draw.ellipse((x, y, x + 6, y + 6), fill="#e8e8e8")
+
+    # Top Banner
+    draw.rectangle([(0, 0), (1080, top_banner_height)], fill="#1a365d")
+    draw.text((40, 18), "GK Tamil Academy", fill="white", font=font_channel)
+
+    # Bottom Banner
+    draw.rectangle([(0, 1920 - bottom_banner_height), (1080, 1920)], fill="#ff6666")
+    draw.text((330, 1920 - 72), "Subscribe for daily TNPSC!", fill="white", font=font_subscribe)
+
+    # Question box
+    box_x1 = margin_x
+    box_x2 = 1080 - margin_x
+    y = top_banner_height + 80
+
+    draw.rounded_rectangle([(box_x1, y), (box_x2, y + 120)], radius=30, fill="#ffd966")
+    draw.text((box_x1 + 30, y + 20), "கேள்வி", fill="#1a1a1a", font=font_title)
+    y += 150
+
+    for line in wrapped_q_lines:
+        draw.text((box_x1, y), line, fill="#111111", font=font_question)
+        y += line_height_q
+    y += spacing_after_q
+
+    # Pastel option colors
+    pastel_colors = ["#e0f7fa", "#fce4ec", "#fff9c4", "#e8f5e9"]
+    border_colors = ["#4dd0e1", "#f06292", "#fbc02d", "#81c784"]
+
+    for i, opt_lines in enumerate(wrapped_opt_lines):
+        opt_y1 = y
+        opt_y2 = y + len(opt_lines) * line_height_opt + 30
+        draw.rounded_rectangle(
+            [(box_x1, opt_y1), (box_x2, opt_y2)],
+            radius=20,
+            fill=pastel_colors[i % len(pastel_colors)],
+            outline=border_colors[i % len(border_colors)],
+            width=2
+        )
+        inner_y = y + 15
+        for line in opt_lines:
+            draw.text((box_x1 + 30, inner_y), line, fill="#333333", font=font_option)
+            inner_y += line_height_opt
+        y = opt_y2 + 20
+
+    img.save(os.path.join(output_dir, name))
+    print("🎨 Enhanced image saved:", name)
+
+def create_image_styled_three(question_data: dict, name="question3.png"):
+    img = Image.new("RGB", (1080, 1920), color="#101820")
+    draw = ImageDraw.Draw(img)
+
+    font_title = ImageFont.truetype(font_path, 66)
+    font_question = ImageFont.truetype(font_path, 58)
+    font_option = ImageFont.truetype(font_path, 48)
+    font_subscribe = ImageFont.truetype(font_path, 44)
+
+    margin_x, padding = 70, 50
+    max_width = 920
+    line_height_q = 76
+    line_height_opt = 58
+    spacing_after_q = 40
+
+    def wrap_text(text, font, max_width):
+        lines, line = [], ""
+        for word in text.split():
+            test_line = f"{line}{word} "
+            if draw.textlength(test_line, font=font) <= max_width:
+                line = test_line
+            else:
+                lines.append(line.strip())
+                line = f"{word} "
+        lines.append(line.strip())
+        return lines
+
+    wrapped_q_lines = wrap_text(question_data["question"], font_question, max_width)
+    wrapped_opt_lines = [wrap_text(opt, font_option, max_width - 40) for opt in question_data["options"]]
+
+    y = 150
+    draw.text((margin_x, y), "TNPSC QUESTION", font=font_title, fill="#00ffff")
+    y += 110
+
+    # Shadow effect
+    content_bg = Image.new("RGB", (920, 1600), "#ffffff")
+    content_draw = ImageDraw.Draw(content_bg)
+    content_y = 30
+    for line in wrapped_q_lines:
+        content_draw.text((20, content_y), line, fill="#000000", font=font_question)
+        content_y += line_height_q
+    content_y += spacing_after_q
+
+    for opt_lines in wrapped_opt_lines:
+        box_y1, box_y2 = content_y - 5, content_y + len(opt_lines) * line_height_opt + 20
+        content_draw.rounded_rectangle([(10, box_y1), (910, box_y2)], radius=15, fill="#f0f0f0")
+        inner_y = content_y + 5
+        for line in opt_lines:
+            content_draw.text((30, inner_y), line, font=font_option, fill="#111111")
+            inner_y += line_height_opt
+        content_y = box_y2 + 25
+
+    # Paste with drop shadow
+    img.paste(content_bg, (margin_x, y))
+    draw.text((280, 1850), "Subscribe for Daily GK Tamil", font=font_subscribe, fill="#ffffff")
+
+    img.save(os.path.join(output_dir, name))
+    print("🎨 Enhanced image saved:", name)
+    
+
+def create_image_styled_four(question_data: dict, name="question4.png"):
+    img = Image.new("RGB", (1080, 1920), color="#fcfcfc")
+    draw = ImageDraw.Draw(img)
+
+    font_title = ImageFont.truetype(font_path, 66)
+    font_question = ImageFont.truetype(font_path, 60)
+    font_option = ImageFont.truetype(font_path, 50)
+    font_subscribe = ImageFont.truetype(font_path, 46)
+
+    margin_x, padding = 80, 50
+    line_height_q = 80
+    line_height_opt = 60
+    spacing_after_q = 30
+    max_width = 880
+
+    def wrap_text(text, font, max_width):
+        lines = []
+        words = text.split()
+        line = ""
+        for word in words:
+            test_line = line + word + " "
+            if draw.textlength(test_line, font=font) <= max_width:
+                line = test_line
+            else:
+                lines.append(line.strip())
+                line = word + " "
+        lines.append(line.strip())
+        return lines
+
+    wrapped_q_lines = wrap_text(question_data["question"], font_question, max_width)
+    wrapped_opt_lines = [wrap_text(opt, font_option, max_width - 40) for opt in question_data["options"]]
+
+    # Add vertical side color bar
+    draw.rectangle([(0, 0), (60, 1920)], fill="#e63946")
+
+    # Add watermark-style faded text
+    draw.text((200, 80), "GK தமிழ் Academy", font=font_title, fill="#dddddd")
+
+    y = 240
+    # Bordered question section with shadow illusion
+    draw.rounded_rectangle(
+        [(margin_x - 10, y - 20), (1080 - margin_x + 10, y + len(wrapped_q_lines) * line_height_q + 40)],
+        radius=25, fill="#f1f1f1", outline="#aaaaaa")
+
+    for line in wrapped_q_lines:
+        draw.text((margin_x, y), line, font=font_question, fill="#222222")
+        y += line_height_q
+    y += spacing_after_q
+
+    # Options with alternating background colors
+    opt_colors = ["#edf2fb", "#e2ece9"]
+    for i, opt_lines in enumerate(wrapped_opt_lines):
+        box_y1 = y - 10
+        box_y2 = y + len(opt_lines) * line_height_opt + 20
+        draw.rounded_rectangle(
+            [(margin_x, box_y1), (1080 - margin_x, box_y2)],
+            radius=20, fill=opt_colors[i % 2], outline="#bbbbbb")
+        inner_y = y + 5
+        for line in opt_lines:
+            draw.text((margin_x + 20, inner_y), line, font=font_option, fill="#111111")
+            inner_y += line_height_opt
+        y = box_y2 + 20
+
+    # Bottom subscription tag with background
+    draw.rectangle([(0, 1820), (1080, 1920)], fill="#1d3557")
+    draw.text((260, 1860), "Subscribe for Daily TNPSC Quiz", font=font_subscribe, fill="#ffffff")
+
+    img.save(os.path.join(output_dir, name))
+    print("🎨 Enhanced image saved:", name)
 
 
 if __name__ == "__main__":
     # Example usage
     question_data = {
-        "id": 1,
-        "question": "இந்தியாவின் தலைநகரம் எது?",
-        "options": [
-            "சென்னை",
-            "மும்பை",
-            "டெல்லி",
-            "கொல்கத்தா"
-        ]
-    }
+    "id": 11,
+    "question": "இந்திய சுதந்திரப் போராட்டத்தின் போது, 'மகாத்மா' என்ற பட்டம் காந்திஜிக்கு யாரால் வழங்கப்பட்டது, மேலும் அதன் முக்கியத்துவம் என்னவாக இருந்தது?",
+    "options": [
+        "A. ரவீந்திரநாத் தாகூர், தேசத்தின் ஆன்மீகத் தலைவராக அங்கீகரிக்கப்பட்டது",
+        "B. சுபாஷ் சந்திர போஸ், இந்தியாவின் தேசத் தந்தையாக அறிவிக்கப்பட்டது",
+        "C. ஜவஹர்லால் நேரு, சுதந்திர இந்தியாவின் முதல் பிரதமராக பரிந்துரைக்கப்பட்டது",
+        "D. சர்தார் வல்லபாய் படேல், இந்திய மாநிலங்களை ஒருங்கிணைத்ததற்காக கௌரவிக்கப்பட்டது"
+    ]
+}
     create_image_styled(question_data)
-    print("Image created successfully.")
+    create_image_styled_two(question_data)
+    create_image_styled_three(question_data)
+    create_image_styled_four(question_data)
