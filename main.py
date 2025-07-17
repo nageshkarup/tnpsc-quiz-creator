@@ -43,9 +43,9 @@ tags=[
         "TNPSC Group 4 Questions", "TNPSC Shorts", "Tamil Quiz", 
         "TNPSC Current Affairs", "Tamil GK", "Current Affairs Tamil", "TNPSC Questions"
     ]
-trending = fetch_youtube_suggestions("TNPSC")
-if trending:
-    tags.extend(trending)
+trending_tags = fetch_youtube_suggestions("TNPSC")
+if trending_tags:
+    tags.extend(trending_tags)
 
 upload_video(
     filepath=os.path.join(os.getcwd(), "output", "short.mp4"),
