@@ -1,22 +1,31 @@
-from scripts.generate_image import create_image_styled
-from scripts.generate_audio import create_voice
+import os
+import random
+
+if not os.environ.get("GITHUB_ACTIONS"):
+    from dotenv import load_dotenv
+    load_dotenv()
+
+from db.db_utils import fetch_next_question
+from scripts.generate_image import create_style_one, create_style_two, create_style_three, create_style_four, create_style_five, create_style_six
+from scripts.generate_audio import generate_voice_google_tts
 from scripts.generate_video import create_video
 
-question_data = {
-    "id": 11,
-    "question": "இந்திய சுதந்திரப் போராட்டத்தின் போது, 'மகாத்மா' என்ற பட்டம் காந்திஜிக்கு யாரால் வழங்கப்பட்டது, மேலும் அதன் முக்கியத்துவம் என்னவாக இருந்தது?",
-    "options": [
-        "A. ரவீந்திரநாத் தாகூர், தேசத்தின் ஆன்மீகத் தலைவராக அங்கீகரிக்கப்பட்டது",
-        "B. சுபாஷ் சந்திர போஸ், இந்தியாவின் தேசத் தந்தையாக அறிவிக்கப்பட்டது",
-        "C. ஜவஹர்லால் நேரு, சுதந்திர இந்தியாவின் முதல் பிரதமராக பரிந்துரைக்கப்பட்டது",
-        "D. சர்தார் வல்லபாய் படேல், இந்திய மாநிலங்களை ஒருங்கிணைத்ததற்காக கௌரவிக்கப்பட்டது"
+question_data = fetch_next_question()
+
+if not question_data:
+    print("📭 No unused questions left.")
+    exit()
+
+image_styles = [
+    create_style_one,
+    create_style_two,
+    create_style_three,
+    create_style_four,
+    create_style_five,
+    create_style_six
     ]
-}
 
-if __name__ == "__main__":
-    create_image_styled(question_data)
-    create_voice(question_data)
-    create_video()
-    print("All media generated successfully.")
-
-    
+chosen_style = random.choice(image_styles)
+chosen_style(question_data, name="question.png")
+generate_voice_google_tts(question_data)
+create_video()

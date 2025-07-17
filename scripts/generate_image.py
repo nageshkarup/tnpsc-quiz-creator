@@ -8,7 +8,7 @@ font_path = os.path.join(os.getcwd(), "assets", "NotoSansTamil-Regular.ttf")
 final_image = f"{output_dir}/question.png"
 
 
-def create_image_styled(question_data: dict, name=f"question.png"):
+def create_style_one(question_data: dict, name=f"question1.png"):
 
     img = Image.new("RGB", (1080, 1920), color="#f0f4f8")
     draw = ImageDraw.Draw(img)
@@ -119,7 +119,8 @@ def create_image_styled(question_data: dict, name=f"question.png"):
     img.save(os.path.join(output_dir, name))
     print("🎨 Enhanced image saved:", name)
 
-def create_image_styled_two(question_data: dict, name="question2.png"):
+
+def create_style_two(question_data: dict, name="question2.png"):
     img = Image.new("RGB", (1080, 1920), color="#fdfdfd")
     draw = ImageDraw.Draw(img)
 
@@ -208,7 +209,8 @@ def create_image_styled_two(question_data: dict, name="question2.png"):
     img.save(os.path.join(output_dir, name))
     print("🎨 Enhanced image saved:", name)
 
-def create_image_styled_three(question_data: dict, name="question3.png"):
+
+def create_style_three(question_data: dict, name="question3.png"):
     img = Image.new("RGB", (1080, 1920), color="#101820")
     draw = ImageDraw.Draw(img)
 
@@ -268,7 +270,7 @@ def create_image_styled_three(question_data: dict, name="question3.png"):
     print("🎨 Enhanced image saved:", name)
     
 
-def create_image_styled_four(question_data: dict, name="question4.png"):
+def create_style_four(question_data: dict, name="question4.png"):
     img = Image.new("RGB", (1080, 1920), color="#fcfcfc")
     draw = ImageDraw.Draw(img)
 
@@ -339,6 +341,164 @@ def create_image_styled_four(question_data: dict, name="question4.png"):
     print("🎨 Enhanced image saved:", name)
 
 
+def create_style_five(question_data: dict, name="question5.png"):
+    img = Image.new("RGB", (1080, 1920), color="#e0f7fa")  # Light blue background
+    draw = ImageDraw.Draw(img)
+
+    font_title = ImageFont.truetype(font_path, 66)
+    font_question = ImageFont.truetype(font_path, 60)
+    font_option = ImageFont.truetype(font_path, 50)
+    font_subscribe = ImageFont.truetype(font_path, 46)
+
+    margin_x, padding = 80, 50
+    line_height_q = 80
+    line_height_opt = 60
+    spacing_after_q = 40
+    max_width = 920 # Increased max width for more text per line
+
+    def wrap_text(text, font, max_width):
+        lines = []
+        words = text.split()
+        line = ""
+        for word in words:
+            test_line = line + word + " "
+            if draw.textlength(test_line, font=font) <= max_width:
+                line = test_line
+            else:
+                lines.append(line.strip())
+                line = word + " "
+        lines.append(line.strip())
+        return lines
+
+    wrapped_q_lines = wrap_text(question_data["question"], font_question, max_width)
+    wrapped_opt_lines = [wrap_text(opt, font_option, max_width - 40) for opt in question_data["options"]]
+
+    # Header with a subtle gradient effect (simulated)
+    draw.rectangle([(0, 0), (1080, 180)], fill="#00796b") # Dark teal
+    draw.text((margin_x, 80), "GK தமிழ் Academy", font=font_title, fill="#ffffff") # White text
+
+    y = 240
+    # Question box with a border and light shadow
+    question_box_height = len(wrapped_q_lines) * line_height_q + padding * 2
+    draw.rectangle([(margin_x - 10, y - 20), (1080 - margin_x + 10, y + question_box_height - 20)],
+                   fill="#ffffff", outline="#a7d9d2", width=3) # White with teal border
+
+    for line in wrapped_q_lines:
+        draw.text((margin_x, y), line, font=font_question, fill="#263238") # Dark grey text
+        y += line_height_q
+    y += spacing_after_q
+
+    # Options with distinct, slightly darker background and rounded corners
+    opt_colors = ["#b2dfdb", "#80cbc4"] # Lighter and slightly darker teal shades
+    for i, opt_lines in enumerate(wrapped_opt_lines):
+        box_y1 = y - 10
+        box_y2 = y + len(opt_lines) * line_height_opt + 20
+        draw.rounded_rectangle(
+            [(margin_x, box_y1), (1080 - margin_x, box_y2)],
+            radius=30, fill=opt_colors[i % 2]) # No outline for a cleaner look
+        inner_y = y + 5
+        for line in opt_lines:
+            draw.text((margin_x + 30, inner_y), line, font=font_option, fill="#263238") # Dark grey text
+            inner_y += line_height_opt
+        y = box_y2 + 25 # Increased spacing between options
+
+    # Bottom footer with a dark, solid color
+    draw.rectangle([(0, 1820), (1080, 1920)], fill="#004d40") # Even darker teal
+    draw.text((260, 1860), "Subscribe for Daily TNPSC Quiz", font=font_subscribe, fill="#ffffff")
+
+    img.save(os.path.join(output_dir, name))
+    print("🎨 Enhanced image saved:", name)
+
+
+def create_style_six(question_data: dict, name="question6.png"):
+    img = Image.new("RGB", (1080, 1920), color="black")
+    draw = ImageDraw.Draw(img)
+
+    # Fonts
+    font_question = ImageFont.truetype(font_path, 56)
+    font_option = ImageFont.truetype(font_path, 48)
+    font_label = ImageFont.truetype(font_path, 46)
+    font_channel = ImageFont.truetype(font_path, 40)
+    font_subscribe = ImageFont.truetype(font_path, 42)
+
+    # Constants
+    neon_color = (140, 82, 255)
+    margin_x = 80
+    question_box_width = 920
+    option_box_width = 920
+    option_box_height_min = 130
+    top_banner_height = 100
+    bottom_banner_height = 100
+    inner_width = 1080
+
+    def wrap_text(text, font, max_width):
+        lines, line = [], ""
+        for word in text.split():
+            test_line = line + word + " "
+            if draw.textlength(test_line, font=font) <= max_width:
+                line = test_line
+            else:
+                lines.append(line.strip())
+                line = word + " "
+        lines.append(line.strip())
+        return lines
+
+    # --- Top Banner ---
+    draw.rectangle([(0, 0), (inner_width, top_banner_height)], fill="#1a365d")
+    draw.text((50, 25), "GK Tamil Academy", fill="white", font=font_channel)
+
+    y = top_banner_height + 60  # space below banner
+
+    # --- Question Box ---
+    wrapped_q_lines = wrap_text(question_data["question"], font_question, question_box_width - 60)
+    q_box_height = 60 + len(wrapped_q_lines) * 68
+    q_x1 = margin_x
+    q_x2 = inner_width - margin_x
+    q_y2 = y + q_box_height
+
+    draw.rounded_rectangle([(q_x1, y), (q_x2, q_y2)], radius=80, outline=neon_color, width=4)
+
+    # Connector circle
+    circle_center = (540, q_y2)
+    r = 36
+    draw.ellipse([(circle_center[0] - r, circle_center[1] - r), (circle_center[0] + r, circle_center[1] + r)],
+                 outline=neon_color, width=4)
+    draw.text((circle_center[0] - 12, circle_center[1] - 24), "?", fill=neon_color, font=font_label)
+
+    # Draw wrapped question text
+    text_y = y + 30
+    for line in wrapped_q_lines:
+        line_w = draw.textlength(line, font=font_question)
+        draw.text(((inner_width - line_w) / 2, text_y), line, fill="white", font=font_question)
+        text_y += 68
+
+    y = q_y2 + r + 60  # space after connector
+
+    # --- Options as vertical boxes ---
+    wrapped_opt_lines = [wrap_text(opt, font_option, option_box_width - 100) for opt in question_data["options"]]
+    labels = ["A", "B", "C", "D"]
+
+    for i, opt_lines in enumerate(wrapped_opt_lines):
+        box_height = max(option_box_height_min, 40 + len(opt_lines) * 60)
+        box_y2 = y + box_height
+
+        draw.rounded_rectangle([(margin_x, y), (inner_width - margin_x, box_y2)],
+                               radius=60, outline=neon_color, width=3)
+
+        draw.text((margin_x - 50, y + 30), labels[i], fill=neon_color, font=font_label)
+
+        text_y = y + 25
+        for line in opt_lines:
+            draw.text((margin_x + 40, text_y), line, fill="white", font=font_option)
+            text_y += 60
+
+        y = box_y2 + 40
+
+
+    img.save(os.path.join(output_dir, name))
+    print("🎨 Enhanced image saved:", name)
+
+
 if __name__ == "__main__":
     # Example usage
     question_data = {
@@ -351,7 +511,10 @@ if __name__ == "__main__":
         "D. சர்தார் வல்லபாய் படேல், இந்திய மாநிலங்களை ஒருங்கிணைத்ததற்காக கௌரவிக்கப்பட்டது"
     ]
 }
-    create_image_styled(question_data)
-    create_image_styled_two(question_data)
-    create_image_styled_three(question_data)
-    create_image_styled_four(question_data)
+    create_style_one(question_data)
+    create_style_two(question_data)
+    create_style_three(question_data)
+    create_style_four(question_data)
+    create_style_five(question_data)
+    create_style_six(question_data)
+    
