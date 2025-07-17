@@ -22,7 +22,7 @@ def fetch_youtube_suggestions(query):
         print(f"❌ Error fetching suggestions: {e}")
         return []
 
-def get_random_trending_suggestion(query = 'tnpsc'):
+def get_random_trending_suggestion(query = 'TNPSC'):
     suggestions = fetch_youtube_suggestions(query)
     if not suggestions:
         return ""
