@@ -40,7 +40,6 @@ if trending:
 
 tags=[
         "TNPSC", "Group 4", "GK", "Tamil", "Shorts", "TNPSC Quiz", "TNPSC 2025", "நடப்புநிகழ்வுகள்",
-        "Daily Quiz", "TNPSC Preparation", "TNPSC Tamil", "Current Affairs",
         "TNPSC Group 4 Questions", "TNPSC Shorts", "Tamil Quiz", 
         "TNPSC Current Affairs", "Tamil GK", "Current Affairs Tamil", "TNPSC Questions"
     ]
