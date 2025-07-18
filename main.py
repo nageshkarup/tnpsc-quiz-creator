@@ -39,9 +39,9 @@ if trending:
     title = f"{trending} | TNPSC Quizz Questions"
 
 tags=[
-        "TNPSC", "Group 4", "GK", "Tamil", "Shorts", "TNPSC Quiz", "TNPSC 2025", "நடப்புநிகழ்வுகள்",
+        "TNPSC", "TNPSC Quiz", "நடப்புநிகழ்வுகள்",
         "TNPSC Group 4 Questions", "TNPSC Shorts", "Tamil Quiz", 
-        "TNPSC Current Affairs", "Tamil GK", "Current Affairs Tamil", "TNPSC Questions"
+        "TNPSC Current Affairs", "Current Affairs Tamil"
     ]
 trending_tags = fetch_youtube_suggestions("TNPSC")
 if trending_tags:
@@ -51,10 +51,10 @@ upload_video(
     filepath=os.path.join(os.getcwd(), "output", "short.mp4"),
     title = title,
     description=(
-        "TNPSC தேர்விற்கான தினசரி கேள்வி. பயிற்சி செய்ய மறக்காதீர்கள்!\n\n tnpsc group 4 answer key 2025 tamil\n tnpsc answer key 2025"
-        "#TNPSC2025 #TNPSCGroup4 #Group4 #TNPSCQuiz #TNPSCAnswerKey #TamilQuiz\n"
-        "#TNPSCPreparation #TNPSCTamil #CurrentAffairsTamil #GKQuestions\n"
-        "#TamilGK #DailyTNPSC #TamilShorts #GovernmentJobTamil #TNPSCQuestions"
+        "TNPSC தேர்விற்கான தினசரி கேள்வி. பயிற்சி செய்ய மறக்காதீர்கள்!\n\n tnpsc group 4 answer key 2025 tamil\n TNPSC Group 2/2A Syllabus Questions"
+        "#shorts #viralshorts #GKTamilAcademy #TNPSCGroup4 #TNPSCQuiz \n"
+        "#TNPSCPreparation #CurrentAffairsTamil\n"
+        "#TamilGeneralKnowledge #DailyTNPSC "
     ),
     tags=tags
 )
