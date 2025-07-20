@@ -33,7 +33,6 @@ jobs:
 
       - name: Run Main Script
         id: run_script
-        continue-on-error: true
         run: |
           set +e
           python main.py 
