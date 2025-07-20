@@ -67,5 +67,5 @@ try:
 except Exception as e:
     error_message = f"❌ *TNPSC Upload Failed*\n\n`{str(e)}`"
     print(error_message)
-    send_telegram_alert(error_message)  # ✅ Notify failure
+    send_telegram_alert(error_message)  
     sys.exit(1)
